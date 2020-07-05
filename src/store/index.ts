@@ -24,6 +24,8 @@ export default new Vuex.Store({
                             displayName: user.displayName,
                             photoURL: user.photoURL
                         });
+                    } else {
+                        commit('setUser', {});
                     }
                 }
             );
