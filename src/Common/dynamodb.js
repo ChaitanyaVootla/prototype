@@ -3,11 +3,11 @@ import AWS from 'aws-sdk';
 AWS.config.update({
     accessKeyId: process.env.VUE_APP_AWS_KEY,
     secretAccessKey: process.env.VUE_APP_AWS_SECRET,
-    region: 'ap-southeast-1',
+    region: process.env.VUE_APP_AWS_REGION,
 })
 // AWS.config.
 const db = new AWS.DynamoDB({
-    region: 'ap-southeast-1',
+    region: process.env.VUE_APP_AWS_REGION,
 });
 
 const getVideoById = (id) => {
@@ -21,6 +21,9 @@ const getVideoById = (id) => {
                     },
                 }
             }, (error, data) => {
+                if (err) {
+                    console.err(err);
+                }
                 resolve(data.Item);
             });
         }
@@ -35,6 +38,9 @@ const getVideos = (id) => {
                 TableName: 'videos',
             },
             (err, data) => {
+                if (err) {
+                    console.err(err);
+                }
                 resolve(data.Items);
             });
         }

@@ -25,36 +25,13 @@
                 </div>
             </el-menu-item>
         </el-menu>
-        <!-- <el-row>
-            <el-col :span="10">
-                <ul>
-                    <li v-for="video in videos" :key="video.id.S">{{video.url.S}}</li>
-                </ul>
-            </el-col>
-            <el-col :span="10">
-                <ul>
-                    <li v-for="file in files" :key="file.ETag">
-                        <el-button size="small" type="danger" @click="uploadFile">Delete</el-button>
-                        {{file.Key}}
-                    </li>
-                </ul>
-            </el-col>
-        </el-row> -->
-        <!-- <el-upload
-            class="upload-demo"
-            ref="upload"
-            :action="uploadFile"
-            :auto-upload="false">
-            <el-button slot="trigger" size="small" type="info">select file</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button>
-        </el-upload> -->
         <input class="upload-demo" id="s3Upload" type="file" accept="video/*"/>
         <el-button size="small" type="success" @click="uploadFile">upload to server</el-button>
         <div class="video-grid">
             <div v-for="video in files" :key="video.Key">
                 <div class="video-container">
                     <video
-                        :src="`https://s3-ap-southeast-1.amazonaws.com/jambalakadipamba.prototype/${video.Key}`"
+                        :src="`https://s3-${process.env.VUE_APP_AWS_REGION}.amazonaws.com/${process.env.VUE_APP_AWS_BUCKET_NAME}/${video.Key}`"
                         controls loop autoplay muted/>
                     <div style="margin:1em;">
                         <span>{{video.Key.replace('prototype/', '')}}</span>
@@ -79,6 +56,9 @@
                 videoUrl: '',
                 videos: [],
                 files: [],
+                process: {
+                    env: process.env
+                },
             }
         },
         async created() {

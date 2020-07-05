@@ -3,18 +3,18 @@ import AWS from 'aws-sdk';
 AWS.config.update({
     accessKeyId: process.env.VUE_APP_AWS_KEY,
     secretAccessKey: process.env.VUE_APP_AWS_SECRET,
-    region: 'ap-southeast-1',
+    region: process.env.VUE_APP_AWS_REGION,
 });
 
 const s3 = new AWS.S3({
-    region: 'ap-southeast-1',
+    region: process.env.VUE_APP_AWS_REGION,
 });
 
 const getFiles = () => {
     const promise = new Promise(
         (resolve, reject) => {
             s3.listObjectsV2({
-                Bucket: 'jambalakadipamba.prototype',
+                Bucket: process.env.VUE_APP_AWS_BUCKET_NAME,
             },
             (err, data) => {
                 if (err) {
@@ -31,7 +31,7 @@ const downloadObject = () => {
     const promise = new Promise(
         (resolve, reject) => {
             s3.getObject({
-                Bucket: 'jambalakadipamba.prototype',
+                Bucket: process.env.VUE_APP_AWS_BUCKET_NAME,
                 Key: 'prototype/dance'
             },
             (err, data) => {
@@ -49,7 +49,7 @@ const uploadObject = (file) => {
     console.log(AWS.config);
     const upload = new AWS.S3.ManagedUpload({
         params: {
-            Bucket: 'jambalakadipamba.prototype',
+            Bucket: process.env.VUE_APP_AWS_BUCKET_NAME,
             Key: `prototype/${file.name}`,
             Body: file,
             ACL: "public-read"
@@ -62,7 +62,7 @@ const deleteObject = (key) => {
     const promise = new Promise(
         (resolve, reject) => {
             s3.deleteObject({
-                Bucket: 'jambalakadipamba.prototype',
+                Bucket: process.env.VUE_APP_AWS_BUCKET_NAME,
                 Key: key
             },
             (err, data) => {
