@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts">
-    export default {
-        created() {
-            this.$store.dispatch('initFirebase');
-        }
-    }
+  export default {
+      created() {
+          this.$store.dispatch('initFirebase');
+      }
+  }
 </script>
 <style lang="less">
   @import './Assets/Styles/main.less';
@@ -17,6 +17,8 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background: #111;
     color: @text-color;
+    padding: 0;
+    margin: 0;
   }
   /* width */
   ::-webkit-scrollbar {
