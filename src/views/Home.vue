@@ -228,7 +228,6 @@
         font-weight: 600;
     }
     .name-text {
-        text-transform: capitalize;
         font-weight: 500;
         max-width: 350px;
         white-space: nowrap;
@@ -264,7 +263,8 @@
         position: fixed;
         z-index: 101;
         top: 0.4em;
-        left: 47%;
+        left: 50%;
+        margin-left: -3em;
         font-size: 1.4em;
         background-color: rgb(80, 80, 80);
         color: black;
