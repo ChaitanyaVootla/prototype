@@ -105,7 +105,7 @@
                 formData.append("file", file);
                 this.isUploading = true;
                 try {
-                    const res = await axios.post('http://localhost/fileupload',
+                    const res = await axios.post('/fileupload',
                         formData,
                         {
                             onUploadProgress: (progressEvent) => {
