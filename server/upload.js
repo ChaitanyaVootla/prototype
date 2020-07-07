@@ -28,13 +28,10 @@ app.post('/fileupload', function (req, res, next) {
         }
         if (!err) {
             const encodePromise = new Promise((resolve, reject) => {
-                ffmpeg(
-                    {
-                        source: files.file.path
-                    }
-                )
+                ffmpeg({ source: files.file.path })
                 .fps(30)
                 .size('?x480')
+                .videoCodec('libx264')
                 .autoPad()
                 .on('progress', function(progress) {
                     console.log('Processing: ' + progress.percent + '% done');
