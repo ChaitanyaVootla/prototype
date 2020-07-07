@@ -203,13 +203,13 @@
         flex-direction: column;
         padding: 1em;
         margin: 1em;
-        width: 50em;
+        width: 95%;
         background-color: #161616;
         border-radius: 0.3em;
     }
     video {
-        width: 50em;
-        height: auto;
+        width: 100%;
+        max-height: 20em;
         object-fit: contain;
         background-color: #070707;
         border-radius: 0.3em;
