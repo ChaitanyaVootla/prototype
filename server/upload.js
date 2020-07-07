@@ -27,18 +27,23 @@ app.post('/fileupload', function (req, res, next) {
             return res.sendStatus(403);
         }
         if (!err) {
+            console.time('Encoding time:');
             const encodePromise = new Promise((resolve, reject) => {
                 ffmpeg({ source: files.file.path })
                 .fps(30)
                 .size('?x480')
                 .videoCodec('libx264')
-                .autoPad()
+                .outputOptions([
+                    '-tune film',
+                    '-preset veryfast',
+                ])
                 .on('progress', function(progress) {
                     console.log('Processing: ' + progress.percent + '% done');
                     res.write(`${progress.percent},`);
                 })
                 .on('end', function(stdout, stderr) {
                     console.log('Transcoding succeeded !');
+                    console.timeEnd('Encoding time:');
                     resolve();
                 }).save('./uploads/low.mp4');
             }).then(
