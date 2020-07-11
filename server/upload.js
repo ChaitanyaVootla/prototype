@@ -8,6 +8,8 @@ var AWS = require('aws-sdk');
 var uuid = require('uuid');
 const dotenv = require('dotenv');
 var _ = require('lodash');
+var multer  = require('multer');
+var upload = multer({ dest: './tempUploads' })
 dotenv.config();
 
 AWS.config.update({
@@ -19,6 +21,32 @@ AWS.config.update({
 var s3 = new AWS.S3();
 
 app.use(cors());
+
+app.post('/s3Image', upload.single('name'), async (req, res, next) => {
+    console.log("gotFile");
+    var form = new formidable.IncomingForm({
+        uploadDir: './tempUploads'
+    });
+    console.log(req.file.path);
+    const upload = new AWS.S3.ManagedUpload({
+        params: {
+            Bucket: process.env.VUE_APP_AWS_BUCKET_NAME,
+            Key: `prototype/${uuid.v4()}.mp4`,
+            Body: fs.createReadStream(req.file.path),
+            ACL: "public-read",
+        }
+    });
+    upload.promise().then(
+        (uploadedData) => {
+            fs.unlink(req.file.path,
+                (err) => {
+                    console.log('Deleted temp file', req.file.path);
+                }
+            );
+            res.json(uploadedData);
+        }
+    );
+});
 
 app.post('/fileupload', function (req, res, next) {
     var form = new formidable.IncomingForm({
